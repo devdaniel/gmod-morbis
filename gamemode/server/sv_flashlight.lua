@@ -1,4 +1,6 @@
----------------------------------LOCALIZATION
+--[[ MORBUS DEVELOPED BY REMSCAR ]]--
+
+-- LOCALIZATION
 local math = math
 local table = table
 local umsg = umsg
@@ -8,59 +10,48 @@ local pairs = pairs
 local umsg = umsg
 local usermessage = usermessage
 local file = file
----------------------------------------------
-/*-------------------------
-JEsus a whole file!
--------------------------*/
+
+--[[ Jesus a whole file! ]]--
 
 function GM:PlayerSwitchFlashlight(ply, on)
-   if !ValidEntity(ply) then return false end
-   if ply:Team() == TEAM_SPEC || ply:IsSwarm() then
-   	ply.NightVision = !ply.NightVision
-   	LIGHT.SendNightVision(ply)
-   	return false
-   end
-   
-   if !ply:IsSwarm() && ply:IsGame() && ply:Alive() && !ply:GetNWBool("alienform",false) && !GAMEMODE.Nightmare then
-      if !ply.Light && (ply.Battery > 1) then
-         --ply:AddEffects(EF_DIMLIGHT)
-         ply:EmitSound( "items/flashlight1.wav", 50, 110 )
-         LIGHT.TurnOn(ply)
-      else
-         --ply:RemoveEffects(EF_DIMLIGHT)
-         LIGHT.TurnOff(ply)
-         ply:EmitSound( "items/flashlight1.wav", 50, 90 )
-      end
-   else
-   	if !on then
-   		LIGHT.TurnOff(ply)
-   		ply:SetNWBool( "Flashlight", false )
-   		ply:RemoveEffects(EF_DIMLIGHT)
-   	end
-   end
-   return false
+	if !ValidEntity(ply) then
+		return false
+	end
+
+	if ply:Team() == TEAM_SPEC || ply:IsSwarm() then
+		ply.NightVision = !ply.NightVision
+		LIGHT.SendNightVision(ply)
+		return false
+	end
+
+	if !ply:IsSwarm() && ply:IsGame() && ply:Alive() && !ply:GetNWBool("alienform",false) && !GAMEMODE.Nightmare then
+		if !ply.Light && (ply.Battery > 1) then
+			ply:EmitSound( "items/flashlight1.wav", 50, 110 )
+			LIGHT.TurnOn(ply)
+		else
+			LIGHT.TurnOff(ply)
+			ply:EmitSound( "items/flashlight1.wav", 50, 90 )
+		end
+	else
+		if !on then
+			LIGHT.TurnOff(ply)
+			ply:SetNWBool( "Flashlight", false )
+			ply:RemoveEffects(EF_DIMLIGHT)
+		end
+	end
+	return false
 end
 
 function LIGHT.TurnOn(ply)
+	local c = Color( 255, 255, 200 ) 
+	local b = 1
+	local size = 60
+	local len = 600
 	ply.Light = true
 	ply:AddEffects(EF_DIMLIGHT)
 	LIGHT.SendStatus(ply)
 	LIGHT.SendBattery(ply)
 	ply.FakeLight = true
-
-	local c = Color( 255, 255, 200 ) 
-	local b = 1
-	local size = 60
-	local len = 600
-	  
-	-- ply.FlashlightEnt = ents.Create( "sent_flashlight" )
-	-- ply.FlashlightEnt:CreateLight( c, b, size, len )
-	-- ply.FlashlightEnt:SetOwner( ply )
-	-- ply.FlashlightEnt:SetPos( ply:GetShootPos())
-	-- ply.FlashlightEnt:SetAngles( ply:GetAimVector():Angle() )
-	-- ply.FlashlightEnt:Spawn()
-	  
-	
 	ply:SetNWBool( "Flashlight", true )
 end
 
@@ -72,9 +63,8 @@ function LIGHT.TurnOff(ply)
 	ply.FakeLight = false
 
 	if IsValid( ply.FlashlightEnt ) then
-      //ply.FlashlightEnt:Remove()
-    end
-    
+		//ply.FlashlightEnt:Remove()
+	end
 end
 
 function LIGHT.FakeOff(ply)
@@ -107,18 +97,8 @@ end
 
 function LIGHT.Think(ply) --Actually called every 1 second
 	if ply.Light then
-
 		if ply.Battery > 0 then
-
 			ply.Battery = ply.Battery - 1
-
-			if ply.Battery < 2 then
-				if ply.FakeLight then
-					--LIGHT.FakeOff(ply)
-				else
-					--LIGHT.FakeOn(ply)
-				end
-			end
 
 			if ply.Battery <= 0 then
 				ply.Battery = 0
@@ -129,13 +109,10 @@ function LIGHT.Think(ply) --Actually called every 1 second
 			LIGHT.TurnOff(ply)
 		end
 	else
-
 		if ply.Battery && ply.Battery < LIGHT_BATTERY then
-
 			ply.Battery = LIGHT.ToTime(LIGHT.Regen(LIGHT.Precent(ply.Battery))) + ply.Battery
 
 			if ply.Battery > LIGHT_BATTERY then
-
 				ply.Battery = LIGHT_BATTERY
 			end
 			LIGHT.SendBattery(ply)

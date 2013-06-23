@@ -1,48 +1,42 @@
-/*----------------------------------------------------
-BEGIN ROUND
-----------------------------------------------------*/
+--[[ MORBUS DEVELOPED BY REMSCAR ]]--
 
+-- BEGIN ROUND
 function SetupRoundHistory()
 	RoundHistory = {}
 	RoundHistory["Infect"] = {}
 	RoundHistory["Kill"] = {}
 	RoundHistory["First"] = {}
-
 	Total_Evolution_Points = STARTING_EVOLUTION --hur
-
 	ResetLog()
 end
 
-
 function BeginRound()
+	if CheckForAbort() then
+		return
+	end
+
 	print("Round starting!\n")
-
-	SetupRoundHistory()
-
-	GAMEMODE:SyncGlobals()
-
-	if CheckForAbort() then return end
-
 	local endtime = CurTime() + (GetConVar("morbus_roundtime"):GetInt() * 60)
+	SetupRoundHistory()
+	GAMEMODE:SyncGlobals()
 	STATS.RoundStart = CurTime()
-
 	SetRoundEnd(endtime)
 
-	if CheckForAbort() then return end
+	if CheckForAbort() then
+		return
+	end
 
 	SpawnPlayers(true)
 
-	if CheckForAbort() then return end
+	if CheckForAbort() then
+		return
+	end
 
 	SelectRoles()
-
 	ents.MORBUS.RemoveRagdolls(true)
 	Swarm_Respawns = STARTING_SWARM_SPAWNS
-
 	SetGlobalInt("morbus_swarm_spawns", Swarm_Respawns)
-	
 	StartWinChecks()
-
 	SetRoundState(ROUND_ACTIVE)
 	GameMsg("The round has begun. Extraction inbound.")
 	if GAMEMODE.Nightmare then
@@ -62,5 +56,5 @@ function BeginRound()
 		Human_Evacuated = false
 	end
 
-print("Round started!\n")
+	print("Round started!\n")
 end

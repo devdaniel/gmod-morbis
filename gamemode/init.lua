@@ -1,22 +1,24 @@
-/*----------------------------------------------------
-MORBUS DEVELOPED BY REMSCAR
-Credits====
-Production: Remscar
-Code Snippets:
--BadKingUrgrain (Round system and some framework stuff)
--Gmod4Ever (Upgrade Menu)
-Original Idea:
--IcklyLevel
--Movie: The Thing
-Thanks to:
-Gmod4Ever
-M4RK
-LauScript (schu)
-----------------------------------------------------*/
+--[[
+	MORBUS DEVELOPED BY REMSCAR
 
+	Production
+	-Remscar
 
+	Code Snippets:
+	-BadKingUrgrain (Round system and some framework stuff)
+	-Gmod4Ever (Upgrade Menu)
 
----------------------------------LOCALIZATION
+	Original Idea:
+	-IcklyLevel
+	-Movie: The Thing
+
+	Thanks to:
+	-Gmod4Ever
+	-M4RK
+	-LauScript (schu)
+]]
+
+-- LOCALIZATION
 local math = math
 local table = table
 local umsg = umsg
@@ -26,34 +28,23 @@ local pairs = pairs
 local umsg = umsg
 local usermessage = usermessage
 local file = file
----------------------------------------------
 
-
-
------------------------------------Includes
+--Includes
 include("shared.lua")
 for k, v in pairs(file.Find(FOLDER_NAME .. "/gamemode/shared/*.lua","LUA")) do include("shared/" .. v) end
 for k, v in pairs(file.Find(FOLDER_NAME .. "/gamemode/server/*.lua","LUA")) do include("server/" .. v) end
--------------------------------------------
 
-
-
-
----------------------------SEND CLIENT FILES
+--SEND CLIENT FILES
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 for k, v in pairs(file.Find(FOLDER_NAME .. "/gamemode/shared/*.lua","LUA")) do AddCSLuaFile("shared/" .. v) end
 for k, v in pairs(file.Find(FOLDER_NAME .. "/gamemode/client/*.lua","LUA")) do AddCSLuaFile("client/" .. v) end
 for k, v in pairs(file.Find(FOLDER_NAME .. "/gamemode/client/vgui/*.lua","LUA")) do AddCSLuaFile("client/vgui/" .. v) end
----------------------------------------------
 
-
-------------STORE HOOK
+--STORE HOOK
 --include("store/init.lua")
 
-
-
---------------------------------SERVER CONVARS
+--SERVER CONVARS
 CreateConVar("morbus_roundtime", "10", FCVAR_NOTIFY)
 CreateConVar("morbus_evactime", "3", FCVAR_NOTIFY)
 CreateConVar("morbus_rounds", "8", FCVAR_NOTIFY)
@@ -64,18 +55,17 @@ CreateConVar("morbus_mission_time_max", "220", FCVAR_NOTIFY)
 CreateConVar("morbus_mission_time_min", "120", FCVAR_NOTIFY)
 CreateConVar("morbus_mission_next_time_max", "80", FCVAR_NOTIFY)
 CreateConVar("morbus_mission_next_time_min", "220", FCVAR_NOTIFY)
------------------------------------------------
 
+--NETWORK STRINGS
 util.AddNetworkString("RoundLog")
 util.AddNetworkString("RoundHistory")
 util.AddNetworkString("ReceivedBody")
 util.AddNetworkString("FoundBody")
 
---------------------------------INITIALIZE GAMEMODE
+--INITIALIZE GAMEMODE
 function GM:Initialize()
 	MsgN("Morbus Server Loading...\n")
 	SetGlobalInt("morbus_winner",0)
-
 
 	RunConsoleCommand("mp_friendlyfire", "1")
     RunConsoleCommand("sv_alltalk", "0")
@@ -131,10 +121,6 @@ function ChangeNightmare(ply)
 	end
 end
 
-------------------------------------------------
-
-
-
 GMNextThink = 0
 function GM:Think()
 	if GMNextThink <= CurTime() then
@@ -179,7 +165,3 @@ function WhoIsPlayer(name)
 	end
 	if !match then return false end
 end
-
-
-
-DEBUG_MORBUS = false

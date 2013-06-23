@@ -1,7 +1,6 @@
-/*----------------------------------------------------
-MORBUS DEVELOPED BY REMSCAR
-----------------------------------------------------*/
----------------------------------LOCALIZATION
+--[[ MORBUS DEVELOPED BY REMSCAR ]]--
+
+-- LOCALIZATION
 local math = math
 local table = table
 local umsg = umsg
@@ -11,33 +10,22 @@ local pairs = pairs
 local umsg = umsg
 local usermessage = usermessage
 local file = file
----------------------------------------------
-
-
-
-
 
 function SetRoundState(state)
 	GAMEMODE.Round_State = state
-
 	SendRoundState(state)
 end
-
 
 function GetRoundState()
 	return GAMEMODE.Round_State
 end
 
-/*----------------------------------------------------
-TIMERS
-----------------------------------------------------*/
-
-
+-- TIMERS
 function StopRoundTimers()
-   timer.Stop("wait2prep")
-   timer.Stop("prep2begin")
-   timer.Stop("end2begin")
-   timer.Stop("winchecker")
+	timer.Stop("wait2prep")
+	timer.Stop("prep2begin")
+	timer.Stop("end2begin")
+	timer.Stop("winchecker")
 end
 
 function StartWinChecks()
@@ -50,25 +38,18 @@ function StopWinChecks()
 	timer.Stop("winchecker")
 end
 
-/*----------------------------------------------------
-PLAYER CHECKER
-----------------------------------------------------*/
-
+-- PLAYER CHECKER
 function EnoughPlayers()
 	local ready = 0
-	local needed = 2 -- 2 normally
+	local needed = 2 -- 2 normally TODO set to 0 if debug enabled
 
 	for _, ply in pairs(player.GetAll()) do
 		if IsValid(ply) && ply:IsGame() then
 			ready = ready + 1
 		end
 	end
-
 	if ready > needed then return true else return false end
-
 end
-
-
 
 function WaitingForPlayersChecker()
 	if GetRoundState() == ROUND_WAIT then
@@ -79,7 +60,6 @@ function WaitingForPlayersChecker()
 	end
 end
 
-
 function WaitForPlayers()
 	SetRoundState(ROUND_WAIT)
 
@@ -89,34 +69,29 @@ function WaitForPlayers()
 end
 
 function CheckForAbort()
+	if GAMEMODE.STOP then
+		return true
+	end
 
-	if GAMEMODE.STOP then return true end
-	
 	if not EnoughPlayers() then
 		StopRoundTimers()
 		WaitForPlayers()
 		return true
 	end
-
 	return false
 end
 
-
-/*----------------------------------------------------
-MISC
-----------------------------------------------------*/
-
-
+-- MISC
 local function ForceRoundRestart(ply, command, args)
-   if (not IsValid(ply)) or ply:IsAdmin() or ply:IsSuperAdmin() then
-      StopRoundTimers()
-      PrepareRound()
-   else
-      ply:PrintMessage(HUD_PRINTCONSOLE, "You must be a GMod Admin or SuperAdmin on the server to use this command")
-   end
+	if (not IsValid(ply)) or ply:IsAdmin() or ply:IsSuperAdmin() then
+		StopRoundTimers()
+		PrepareRound()
+	else
+		ply:PrintMessage(HUD_PRINTCONSOLE, "You must be a GMod Admin or SuperAdmin on the server to use this command")
+	end
 end
 concommand.Add("morbus_roundrestart", ForceRoundRestart)
 
 function GM:AcceptStream(ply, handler, id)
-   return false
+	return false
 end

@@ -1,4 +1,6 @@
----------------------------------LOCALIZATION
+--[[ MORBUS DEVELOPED BY REMSCAR ]]--
+
+-- LOCALIZATION
 local math = math
 local table = table
 local umsg = umsg
@@ -8,16 +10,14 @@ local pairs = pairs
 local umsg = umsg
 local usermessage = usermessage
 local file = file
----------------------------------------------
 
 function ResetLog()
 	Round_Log = {}
 	Round_IDs = {}
 end
 
-
-
 if SERVER then
+
 	function AddLog(type,ply1,ply2,info)
 		local ins = ply1:GetName().." ("..GetRoleName(ply1:GetRole())..") has "..Get_TypeAction(type)
 		if (ply2) then
@@ -71,19 +71,19 @@ if SERVER then
 		if !file.Exists("Morbus/logs","DATA") then
 			file.CreateDir("logs")
 		end
-		
-		
+
 		file.Append("Morbus/logs/"..game.GetMap( ).."/".."round_log_"..tostring(os.date("%m-%d_%H-%M"))..".txt","#### MORBUS ROUND LOG ####\n"..os.date().."\n")
+
 		for k,v in pairs(Round_Log) do
 			file.Append("Morbus/logs/"..game.GetMap( ).."/".."round_log_"..tostring(os.date("%m-%d_%H-%M"))..".txt","["..v.
 				Time.."] ["..v.Type.."] "..v.Text.."\n")
 		end
 
 		file.Append("Morbus/logs/"..game.GetMap( ).."/".."round_log_"..tostring(os.date("%m-%d_%H-%M"))..".txt","#### PLAYER STEAM ID's ####\n")
+
 		for k,v in pairs(Round_IDs) do
 			file.Append("Morbus/logs/"..game.GetMap( ).."/".."round_log_"..tostring(os.date("%m-%d_%H-%M"))..".txt","["..v[1].."] "..v[2].."\n")
 		end
-		
 	end
 
 else
@@ -106,5 +106,3 @@ else
 	concommand.Add("print_log",PrintLog)
 
 end
-
-

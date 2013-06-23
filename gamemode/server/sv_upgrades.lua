@@ -1,4 +1,6 @@
----------------------------------LOCALIZATION
+--[[ MORBUS DEVELOPED BY REMSCAR ]]--
+
+-- LOCALIZATION
 local math = math
 local table = table
 local umsg = umsg
@@ -8,18 +10,20 @@ local pairs = pairs
 local umsg = umsg
 local usermessage = usermessage
 local file = file
----------------------------------------------
+
+local plymeta = FindMetaTable( "Player" )
+
+if not plymeta then
+	return
+end
 
 function GetEvolutionPoints(ply)
-   return ply.Evo_Points or 0
+	return ply.Evo_Points or 0
 end
 
 function GetTotalEvolutionPoints()
-   return Total_Evolution_Points
+	return Total_Evolution_Points
 end
-
-local plymeta = FindMetaTable( "Player" )
-if not plymeta then return end
 
 function plymeta:GetEvoPoints()
 	return GetEvolutionPoints(self)
@@ -41,14 +45,13 @@ end
 
 function Send_Upgrades(ply)
 	Clear_Upgrades(ply)
-	
+
 	for k,v in pairs(ply.Upgrades) do
 		umsg.Start("SendUpgrade",ply)
 		umsg.Char(k)
 		umsg.Char(v)
 		umsg.End()
 	end
-	
 end
 
 function Send_Upgrade(ply,up)
@@ -58,17 +61,26 @@ function Send_Upgrade(ply,up)
 	umsg.End()
 end
 
-
 function Clear_Upgrades(ply)
 	umsg.Start("ClearUpgrades",ply)
 	umsg.End()
 end
 
 function Increase_Upgrade(ply,cmd,args)
-	if !ValidEntity(ply) then return end
-	if !ply:IsBrood() then return end
-	if ply:GetEvoPoints() < 1 then ply:SendUpgrades() return end
-	if !args[1] then ply:SendUpgrades() return end
+	if !ValidEntity(ply) then
+		return
+	end
+	if !ply:IsBrood() then
+		return
+	end
+	if ply:GetEvoPoints() < 1 then
+		ply:SendUpgrades()
+		return
+	end
+	if !args[1] then
+		ply:SendUpgrades()
+		return
+	end
 
 	local up = UPGRADES[tonumber(args[1])]
 
@@ -86,8 +98,6 @@ function Increase_Upgrade(ply,cmd,args)
 	else
 		ply:SendUpgrades()
 	end
-
-
 end
 concommand.Add("morbus_upgrade",Increase_Upgrade)
 
@@ -99,7 +109,6 @@ function Hack_Points(ply,cmd,args)
 	end
 end
 concommand.Add("give_points",Hack_Points)
---RunConsoleCommand("alien_increase_level_upgrade",self.Upgrade)
 
 function CalcUpgrade()
 	return POINTS_PER_KILL + math.Round(#player.GetAll()*POINTS_PER_KILL2)

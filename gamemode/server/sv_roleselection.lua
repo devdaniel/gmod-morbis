@@ -1,4 +1,6 @@
----------------------------------LOCALIZATION
+--[[ MORBUS DEVELOPED BY REMSCAR ]]--
+
+-- LOCALIZATION
 local math = math
 local table = table
 local umsg = umsg
@@ -8,14 +10,14 @@ local pairs = pairs
 local umsg = umsg
 local usermessage = usermessage
 local file = file
----------------------------------------------
 
-/*-----------------------------
-ROLE SELECTION
-------------------------------*/
+local Allow_Bots = false
+LAST_ALIEN = {}
 
+-- ROLE SELECTION
 local function GetBroodCount(ply_count)
 	local count = math.Round(ply_count * 0.12)
+
 	if count > 0 then
 		return count
 	else
@@ -24,72 +26,61 @@ local function GetBroodCount(ply_count)
 end
 
 local function SendRoles()
-   for k,v in pairs(player.GetAll()) do
-      if IsValid(v) then
-         SendPlayerRole(v:GetRole(), v)
-      end
-   end
+	for k,v in pairs(player.GetAll()) do
+		if IsValid(v) then
+			SendPlayerRole(v:GetRole(), v)
+		end
+	end
 end
 
-
-
-
-LAST_ALIEN = {}
-local Allow_Bots = false
 function SelectRoles()
 	local choices = {}
+	local la = {}
+	local ts = 0
 
-   for k,v in pairs(player.GetAll()) do
-      if IsValid(v) && v:IsGame() then
-         if (Allow_Bots && v:IsBot()) || !v:IsBot() then
-            if v:GetBaseSanity() > 500 then
-               table.insert(choices, v)
-            end
-         end
-      end
+	for k,v in pairs(player.GetAll()) do
+		if IsValid(v) && v:IsGame() then
+			if (Allow_Bots && v:IsBot()) || !v:IsBot() then
+				if v:GetBaseSanity() > 500 then
+					table.insert(choices, v)
+				end
+			end
+		end
+		v:SetRole(ROLE_HUMAN)
+	end
+	local choice_count = #choices
+	local brood_count = GetBroodCount(choice_count)
 
-      v:SetRole(ROLE_HUMAN)
-   end
-   local la = {}
-   
+	if choice_count == 0 then
+		print("Error in role selection. #001\n")
+		return
+	end
 
-   local choice_count = #choices
-   local brood_count = GetBroodCount(choice_count)
+	while ts < brood_count do
+		local pick = math.random(1,#choices)
+		local pply = choices[pick]
+		local pass = false
 
-   if choice_count == 0 then print("Error in role selection. #001\n") return end
+		if table.HasValue(LAST_ALIEN,pply) then
+			if math.random(1,5) < 2 then
+				pass = true
+			end
+		else
+			pass = true
+		end
+		if IsValid(pply) && (pass == true) then
+			pply:SetRole(ROLE_BROOD)
+			pply.Mission = MISSION_KILL
+			pply:SendMission()
+			table.remove(choices, pick)
+			ts = ts + 1
+			RoundHistory["First"][ts] = pply
+			pply.Evo_Points = STARTING_EVOLUTION_QUEEN
+			table.insert(la,pply)
+		end
+	end
 
-   local ts = 0
-   while ts < brood_count do
-   	local pick = math.random(1,#choices)
-
-   	local pply = choices[pick]
-      local pass = false
-
-      if table.HasValue(LAST_ALIEN,pply) then
-         if math.random(1,5) < 2 then
-            pass = true
-         end
-      else
-         pass = true
-      end
-
-   	if IsValid(pply) && (pass == true) then
-   		pply:SetRole(ROLE_BROOD)
-         pply.Mission = MISSION_KILL
-         pply:SendMission()
-   		table.remove(choices, pick)
-   		ts = ts + 1
-         RoundHistory["First"][ts] = pply
-         pply.Evo_Points = STARTING_EVOLUTION_QUEEN
-         table.insert(la,pply)
-   	end
-   end
-
-
-   LAST_ALIEN = table.Copy(la)
-
-   SendRoles()
-   UpdateAliens(true)
+	LAST_ALIEN = table.Copy(la)
+	SendRoles()
+	UpdateAliens(true)
 end
-
-

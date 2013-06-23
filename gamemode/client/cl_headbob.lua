@@ -1,4 +1,6 @@
----------------------------------LOCALIZATION
+--[[ MORBUS DEVELOPED BY REMSCAR ]]--
+
+-- LOCALIZATION
 local math = math
 local table = table
 local umsg = umsg
@@ -8,7 +10,7 @@ local pairs = pairs
 local umsg = umsg
 local usermessage = usermessage
 local file = file
----------------------------------------------
+
 local HBAP = 0
 local HBAY = 0
 local HBAR = 0
@@ -18,18 +20,15 @@ local HBPZ = 0
 local HEADBOB_ON = true
 
 function HeadBob(pl, pos, ang, fov)
-
-
 	local v = {}
 	v.pos = pos
 	v.ang = ang
 	v.fov = fov
-	
+
 	if pl:IsOnGround() && HEADBOB_ON then
 		if pl:KeyDown(IN_FORWARD) || pl:KeyDown(IN_BACK) || pl:KeyDown(IN_MOVELEFT) || pl:KeyDown(IN_MOVERIGHT) then
 			HBPZ = HBPZ + (10 / 1) * FrameTime()
 		end
-	
 		if pl:KeyDown(IN_FORWARD) then
 			if HBAP < 1.5 then
 				HBAP = HBAP + 0.05 * 1
@@ -39,7 +38,6 @@ function HeadBob(pl, pos, ang, fov)
 				HBAP = HBAP - 0.05 * 1
 			end
 		end
-		
 		if pl:KeyDown(IN_BACK) then
 			if HBAP > -1.5 then
 				HBAP = HBAP - 0.05 * 1
@@ -49,7 +47,6 @@ function HeadBob(pl, pos, ang, fov)
 				HBAP = HBAP + 0.05 * 1
 			end
 		end
-		
 		if pl:KeyDown(IN_MOVELEFT) then
 			if HBAR > -1.5 then
 				HBAR = HBAR - 0.07 * 1
@@ -59,7 +56,6 @@ function HeadBob(pl, pos, ang, fov)
 				HBAR = HBAR + 0.07 * 1
 			end
 		end
-		
 		if pl:KeyDown(IN_MOVERIGHT) then
 			if HBAR < 1.5 then
 				HBAR = HBAR + 0.07 * 1
@@ -76,8 +72,6 @@ function HeadBob(pl, pos, ang, fov)
 	v.ang.pitch = v.ang.pitch + HBAP * 1
 	v.ang.roll = v.ang.roll + HBAR * 1
 	v.pos.z = v.pos.z - math.cos(HBPZ * 1)
-	
-
 
 	return GAMEMODE:CalcView(pl, v.pos, v.ang, v.fov)
 end

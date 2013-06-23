@@ -1,4 +1,6 @@
----------------------------------LOCALIZATION
+--[[ MORBUS DEVELOPED BY REMSCAR ]]--
+
+-- LOCALIZATION
 local math = math
 local table = table
 local umsg = umsg
@@ -8,14 +10,12 @@ local pairs = pairs
 local umsg = umsg
 local usermessage = usermessage
 local file = file
----------------------------------------------
-/*------------------------------------------------
-PLAYER EXTENSION CLIENT SIDE
--------------------------------------------------*/
 
+-- PLAYER EXTENSION CLIENT SIDE
 local plymeta = FindMetaTable( "Player" )
-if not plymeta then return end
-
+if not plymeta then
+	return
+end
 
 function plymeta:GetMission()
 	return self.Mission or MISSION_NONE

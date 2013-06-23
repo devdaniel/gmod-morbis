@@ -1,14 +1,10 @@
-/*----------------------------------------------------
-END ROUND
-----------------------------------------------------*/
+--[[ MORBUS DEVELOPED BY REMSCAR ]]--
 
-
+-- END ROUND
 function EndRound(type)
-
+	-- TODO Reorder Locals
 	print("Round Ending \n")
-
 	RevealAll()
-
 	if type == WIN_HUMAN then
 		GameMsg("Humans have won")
 		print("Humans have won")
@@ -16,16 +12,14 @@ function EndRound(type)
 		GameMsg("Aliens have won")
 		print("Aliens have won")
 	end
-	SetGlobalInt("morbus_winner",type)
 
+	SetGlobalInt("morbus_winner",type)
 	SANITY.RoundEnd()
 	STATS.Send()
-
 	SetRoundState(ROUND_POST)
-
 	local ptime = GetConVar("morbus_round_post"):GetInt()
-	timer.Create("end2prep", ptime, 1, PrepareRound)
 
+	timer.Create("end2prep", ptime, 1, PrepareRound)
 	StopWinChecks()
 
 	local rounds_left = math.max(0,GetGlobalInt("morbus_rounds_left",10)-1)
@@ -50,5 +44,4 @@ function EndRound(type)
 
 	Send_RoundHistory()
 	UpdateGlobalVars()
-
 end

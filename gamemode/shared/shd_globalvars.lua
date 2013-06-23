@@ -1,3 +1,5 @@
+--[[ MORBUS DEVELOPED BY REMSCAR ]]--
+
 GLOBAL_VARS = {} -- Table that stores all the variables
 --table structure {"Name","Value",Type,SyncTime}
 

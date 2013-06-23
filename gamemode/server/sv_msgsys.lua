@@ -1,8 +1,8 @@
-/*--------------------------------------------
-MORBUS MESSAGE SYSTEM
---------------------------------------------*/
+--[[ MORBUS DEVELOPED BY REMSCAR ]]--
 
----------------------------------LOCALIZATION
+-- MORBUS MESSAGE SYSTEM
+
+-- LOCALIZATION
 local math = math
 local table = table
 local umsg = umsg
@@ -12,15 +12,9 @@ local pairs = pairs
 local umsg = umsg
 local usermessage = usermessage
 local file = file
----------------------------------------------
 
-
-/*--------------------------------------------
-SEND MESSAGE
----------------------------------------------*/
-
+-- SEND MESSAGE
 function GameMsg(str)
-
 	umsg.Start("game_msg")
 	umsg.String(str)
 	umsg.Bool(false)
@@ -29,7 +23,6 @@ end
 
 function ColorMsg(filter, str, clr)
 	clr = clr or Color(255,255,255,255)
-
 	umsg.Start("game_msg_color", filter)
 	umsg.String(str)
 	umsg.Short(clr.r)
@@ -39,7 +32,6 @@ function ColorMsg(filter, str, clr)
 end
 
 function PlayerMsg(filter,str,alien)
-
 	umsg.Start("game_msg", filter)
 	umsg.String(str)
 	umsg.Bool(alien)
@@ -49,5 +41,3 @@ end
 function AlienMsg(filter,str)
 	PlayerMsg(filter,str,true)
 end
-
-

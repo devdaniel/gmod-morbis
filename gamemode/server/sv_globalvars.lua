@@ -1,21 +1,26 @@
-/*Dear person who is reading this,
-Unforunatley for me, source engine
-and garrysmod are generally stupid.
-I used to use SetGlobalInt, SetGlobalString,
-SetGLobalFloat, like any other person
-who wants to easily send a variables to
-clients, yet still control it via server.
-This worked most of the time, but for some
-god awful stupid fucking reason, it doesnt
-on some servers. So to prevent this ridiculously
-retarded ass error where it does jack fucking shit
-with global variables, i have to write my own
-fucking library to make up for it. Fuck me.*/
+--[[ MORBUS DEVELOPED BY REMSCAR ]]--
 
+--[[
+	Dear person who is reading this,
 
+	Unforunatley for me, source engine
+	and garrysmod are generally stupid.
+	I used to use SetGlobalInt, SetGlobalString,
+	SetGLobalFloat, like any other person
+	who wants to easily send a variables to
+	clients, yet still control it via server.
+	This worked most of the time, but for some
+	god awful stupid fucking reason, it doesnt
+	on some servers. So to prevent this ridiculously
+	retarded ass error where it does jack fucking shit
+	with global variables, i have to write my own
+	fucking library to make up for it. Fuck me.
+]]--
 
 function SetGlobalVar(name,value,type,synctime)
-	if (!name || !value) then return end
+	if (!name || !value) then
+		return
+	end
 
 	if GLOBAL_VARS[name] then
 		GLOBAL_VARS[name].Value = value
@@ -36,7 +41,10 @@ function SetGlobalVar(name,value,type,synctime)
 end
 
 function SendGlobalVar(tab)
-	if !tab then return end
+	if !tab then
+		return
+	end
+
 	umsg.Start("SendGlobal")
 	umsg.String(tab.Name)
 	umsg.Char(tab.Type)
@@ -45,7 +53,10 @@ function SendGlobalVar(tab)
 end
 
 function SendPlayerGlobalVar(tab,ply)
-	if !tab then return end
+	if !tab then
+		return
+	end
+
 	umsg.Start("SendGlobal",ply)
 	umsg.String(tab.Name)
 	umsg.Char(tab.Type)
@@ -60,15 +71,18 @@ function UpdateGlobalVars()
 end
 
 function RequestAllGlobals(ply)
-	if !ply then return end
-	if #GLOBAL_VARS < 1 then return end
+	if !ply then
+		return
+	end
+	if #GLOBAL_VARS < 1 then
+		return
+	end
 
 	for k,v in pairs(GLOBAL_VARS) do
 		SendPlayerGlobalVar(v,ply)
 	end
 end
 concommand.Add("sync_vars",RequestAllGlobals)
-
 
 function GlobalVarUpdater()
 	for k,v in pairs(GLOBAL_VARS) do

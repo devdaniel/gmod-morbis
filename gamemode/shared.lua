@@ -1,7 +1,6 @@
-/*----------------------------------------------------
-MORBUS DEVELOPED BY REMSCAR
-----------------------------------------------------*/
-GM.Name = "MORBUS" //VERSION 1.5.2
+--[[ MORBUS DEVELOPED BY REMSCAR ]]--
+
+GM.Name = "MORBUS"
 GM.Author = "Remscar"
 GM.Email = "zachary@remscar.com"
 GM.Website = "http://www.remscar.com"
@@ -9,11 +8,12 @@ GM.TeamBased  = false;
 
 GM_VERSION = "1.5.2"
 GM_VERSION_SHORT = 152
------------------------------------------------------
+DEBUG_MORBUS = false
+
 local folder = GM.Folder
 FOLDER_NAME = folder:gsub("gamemodes/", "")
 
----------------------------------LOCALIZATION
+-- LOCALIZATION
 local math = math
 local table = table
 local umsg = umsg
@@ -23,12 +23,10 @@ local pairs = pairs
 local umsg = umsg
 local usermessage = usermessage
 local file = file
----------------------------------------------
 
 _G.ValidEntity = _G.IsValid
 
----------------------------------------ENUMERATIONS
-
+-- ENUMERATIONS
 ROUND_WAIT = 1
 ROUND_PREP = 2
 ROUND_ACTIVE = 3
@@ -74,7 +72,6 @@ WEAPON_HEAVY = 4
 WEAPON_MISC = 5
 WEAPON_ROLE = 6
 
-
 DEFAULT_JUMP = 200
 
 STARTING_EVOLUTION_QUEEN = 5
@@ -93,83 +90,68 @@ TRANSFORM_TIME = 10
 STARTING_SWARM_SPAWNS = 5
 SWARM_SPAWNS_BONUS = 3
 
-
-
-----------------------------------------------------
 NEED_ENTS = {}
 NEED_ENTS[MISSION_SLEEP] = {"need_bed","need_bedroom"}
 NEED_ENTS[MISSION_EAT] = {"need_food","need_restaurant"}
 NEED_ENTS[MISSION_CLEAN] = {"need_wash","need_shower"}
 NEED_ENTS[MISSION_BATHROOM] = {"need_piss","need_toilet"}
 
-/*-----------------------------
-COSNTANTS
-------------------------------*/
+-- COSNTANTS
 BROOD_SPEED = 330
 BROOD_SPRINT = 390
 SWARM_SPEED = 260
 HUMAN_SPEED = 270
-
 TTC_MISSION = 8
 --FIRST_SPAWN = true
-
 
 local math = math
 local rand = math.random
 function table.Shuffle(t)
-  local n = #t
- 
-  while n > 2 do
-    -- n is now the last pertinent index
-    local k = rand(n) -- 1 <= k <= n
-    -- Quick swap
-    t[n], t[k] = t[k], t[n]
-    n = n - 1
-  end
- 
-  return t
+	local n = #t
+	while n > 2 do
+		-- n is now the last pertinent index
+		local k = rand(n) -- 1 <= k <= n
+		-- Quick swap
+		t[n], t[k] = t[k], t[n]
+		n = n - 1
+	end
+	return t
 end
 
 
-
-
-
-
-/*-------------------------------------------------
-Random Shared Models
-aka humanss
----------------------------------------------------*/
+--[[
+	Random Shared Models
+	aka humanss
+]]--
 Models = {}
 Models.Male = {
-"models/player/group01/male_01.mdl",
-"models/player/group01/male_02.mdl",
-"models/player/group01/male_03.mdl",
-"models/player/group01/male_04.mdl",
-"models/player/group01/male_05.mdl",
-"models/player/group01/male_06.mdl",
-"models/player/group01/male_07.mdl",
-"models/player/group01/male_08.mdl",
-"models/player/group01/male_09.mdl",
-"models/player/monk.mdl",
-"models/player/odessa.mdl",
-"models/player/Kleiner.mdl",
-"models/player/breen.mdl",
-"models/player/Barney.mdl",
-"models/player/Hostage/hostage_01.mdl",
-"models/player/Hostage/hostage_02.mdl",
-"models/player/Hostage/hostage_03.mdl",
-"models/player/Hostage/hostage_04.mdl",
+	"models/player/group01/male_01.mdl",
+	"models/player/group01/male_02.mdl",
+	"models/player/group01/male_03.mdl",
+	"models/player/group01/male_04.mdl",
+	"models/player/group01/male_05.mdl",
+	"models/player/group01/male_06.mdl",
+	"models/player/group01/male_07.mdl",
+	"models/player/group01/male_08.mdl",
+	"models/player/group01/male_09.mdl",
+	"models/player/monk.mdl",
+	"models/player/odessa.mdl",
+	"models/player/Kleiner.mdl",
+	"models/player/breen.mdl",
+	"models/player/Barney.mdl",
+	"models/player/Hostage/hostage_01.mdl",
+	"models/player/Hostage/hostage_02.mdl",
+	"models/player/Hostage/hostage_03.mdl",
+	"models/player/Hostage/hostage_04.mdl",
 }
-
-
 Models.Female = {
-"models/player/group01/female_01.mdl",
-"models/player/group01/female_02.mdl",
-"models/player/group01/female_03.mdl",
-"models/player/group01/female_04.mdl",
-"models/player/group01/female_06.mdl",
-"models/player/alyx.mdl",
-"models/player/mossman.mdl",
+	"models/player/group01/female_01.mdl",
+	"models/player/group01/female_02.mdl",
+	"models/player/group01/female_03.mdl",
+	"models/player/group01/female_04.mdl",
+	"models/player/group01/female_06.mdl",
+	"models/player/alyx.mdl",
+	"models/player/mossman.mdl",
 }
 
 
@@ -179,12 +161,9 @@ util.PrecacheModel(Models.Brood)
 util.PrecacheModel(Models.Swarm)
 
 local function LoadModels(tab)
-  for k,v in pairs(tab) do
-    util.PrecacheModel(v)
-  end
+	for k,v in pairs(tab) do
+		util.PrecacheModel(v)
+	end
 end
 LoadModels(Models.Male)
 LoadModels(Models.Female)
-
-
-//I removed my little monologue here because it was pretty dumb

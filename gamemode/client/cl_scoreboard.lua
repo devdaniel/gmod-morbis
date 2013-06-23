@@ -1,4 +1,6 @@
----------------------------------LOCALIZATION
+--[[ MORBUS DEVELOPED BY REMSCAR ]]--
+
+-- LOCALIZATION
 local math = math
 local table = table
 local umsg = umsg
@@ -8,10 +10,8 @@ local pairs = pairs
 local umsg = umsg
 local usermessage = usermessage
 local file = file
----------------------------------------------
 
 pScoreBoard = nil
-
 local ShowScoreboard = false
 
 function GM:CreateScoreboard()
@@ -20,27 +20,21 @@ end
 
 function GM:ScoreboardShow()
 	GAMEMODE.ShowScoreboard = true
+	SB_status = true
 
 	gui.EnableScreenClicker(true)
-
-	SB_status = true	
-
 	if not pScoreBoard then
 		self:CreateScoreboard()
 	end
-
 	pScoreBoard.Status = true
 	pScoreBoard:SetVisible(true)
 end
 
 function GM:ScoreboardHide()
-
 	GAMEMODE.ShowScoreboard = false
-	
 	SB_status = false
 
 	gui.EnableScreenClicker(false)
-
 	pScoreBoard.Status = false
 	pScoreBoard:SetVisible(false)
 end
@@ -56,6 +50,5 @@ function GM:HUDDrawScoreBoard()
 end
 
 function GM:PostRenderVGUI()
+	-- Nothing?
 end
-
-

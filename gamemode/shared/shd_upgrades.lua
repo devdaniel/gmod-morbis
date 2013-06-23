@@ -1,7 +1,4 @@
-/*------------------------------------------------
-SO MANY UPGRADES BITCHES
--------------------------------------------------*/
-
+--[[ MORBUS DEVELOPED BY REMSCAR ]]--
 
 UPGRADE = {} --To be used as ENUM
 UPGRADES = {} -- Used to store upgrade data
@@ -29,7 +26,6 @@ UPGRADES[1] = {
 	Tier=1
 }
 
-
 UPGRADE.CARAPACE = 2
 UPGRADE.CARAPACE_AMOUNT = 5
 UPGRADES[2] = {
@@ -40,7 +36,6 @@ UPGRADES[2] = {
 	MaxLevel=5,
 	Tier=1
 }
-
 
 UPGRADE.SPRINT = 3
 UPGRADE.SPRINT_AMOUNT = 16
@@ -53,7 +48,6 @@ UPGRADES[3] = {
 	Tier=1
 }
 
-
 UPGRADE.EXHAUST = 4
 UPGRADE.EXHAUST_AMOUNT = 45
 UPGRADES[4] = {
@@ -64,7 +58,6 @@ UPGRADES[4] = {
 	MaxLevel=3,
 	Tier=1
 }
-
 
 UPGRADE.SDEFENSE = 5
 UPGRADE.SDEFENSE_AMOUNT = 20
@@ -77,7 +70,6 @@ UPGRADES[5] = {
 	Tier=1
 }
 
-
 UPGRADE.FALL = 6
 UPGRADE.FALL_AMOUNT = 33
 UPGRADES[6] = {
@@ -88,7 +80,6 @@ UPGRADES[6] = {
 	MaxLevel=3,
 	Tier=1
 }
-
 
 UPGRADE.ATKSPEED = 7
 UPGRADE.ATKSPEED_AMOUNT = 10
@@ -101,7 +92,6 @@ UPGRADES[7] = {
 	Tier=2
 }
 
-
 UPGRADE.REGEN = 8
 UPGRADE.REGEN_AMOUNT = 1
 UPGRADES[8] = {
@@ -112,7 +102,6 @@ UPGRADES[8] = {
 	MaxLevel=3,
 	Tier=1
 }
-
 
 UPGRADE.JUMP = 9
 UPGRADE.JUMP_AMOUNT = 110
@@ -125,7 +114,6 @@ UPGRADES[9] = {
 	Tier=2
 }
 
-
 UPGRADE.LIFESTEAL = 10
 UPGRADE.LIFESTEAL_AMOUNT = 5
 UPGRADES[10] = {
@@ -136,7 +124,6 @@ UPGRADES[10] = {
 	MaxLevel=3,
 	Tier=2
 }
-
 
 UPGRADE.HDEFENSE = 11
 UPGRADE.HDEFENSE_AMOUNT = 20
@@ -149,7 +136,6 @@ UPGRADES[11] = {
 	Tier=2
 }
 
-
 UPGRADE.BREATH = 12
 UPGRADES[12] = {
 	Title="Softened Breath",
@@ -159,7 +145,6 @@ UPGRADES[12] = {
 	MaxLevel=1,
 	Tier=2
 }
-
 
 UPGRADE.SMELLRANGE = 13
 UPGRADE.SMELLRANGE_AMOUNT = 1000
@@ -172,7 +157,6 @@ UPGRADES[13] = {
 	Tier=2
 }
 
-
 UPGRADE.HEALTH = 14
 UPGRADE.HEALTH_AMOUNT = 25
 UPGRADES[14] = {
@@ -183,7 +167,6 @@ UPGRADES[14] = {
 	MaxLevel=4,
 	Tier=2
 }
-
 
 UPGRADE.INVISIBLE = 15
 UPGRADES[15] = {
